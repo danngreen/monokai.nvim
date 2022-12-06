@@ -128,13 +128,17 @@ end
 local function highlighter(config)
   return function(group, color)
     color = remove_italics(config, color)
-    local style = color.style and 'gui=' .. color.style or 'gui=NONE'
-    local fg = color.fg and 'guifg = ' .. color.fg or 'guifg = NONE'
-    local bg = color.bg and 'guibg = ' .. color.bg or 'guibg = NONE'
-    local sp = color.sp and 'guisp = ' .. color.sp or ''
-  vim.cmd(
-    'highlight ' .. group .. ' ' .. style .. ' ' .. fg .. ' ' .. bg .. ' ' .. sp
-  )
+    if color.link then
+      vim.cmd('highlight link ' .. group .. ' ' .. color.link)
+    else
+      local style = color.style and 'gui=' .. color.style or 'gui=NONE'
+      local fg = color.fg and 'guifg = ' .. color.fg or 'guifg = NONE'
+      local bg = color.bg and 'guibg = ' .. color.bg or 'guibg = NONE'
+      local sp = color.sp and 'guisp = ' .. color.sp or ''
+      vim.cmd(
+        'highlight ' .. group .. ' ' .. style .. ' ' .. fg .. ' ' .. bg .. ' ' .. sp
+      )
+    end
   end
 end
 
